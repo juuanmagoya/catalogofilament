@@ -19,12 +19,21 @@ use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use App\Http\Middleware\SetTenantFromUser;
+use Filament\Navigation\NavigationItem;
 
 class YesPanelProvider extends PanelProvider
 {
     public function panel(Panel $panel): Panel
     {
         return $panel
+            ->navigationItems([
+        NavigationItem::make('Tenant')
+            ->label(fn () => tenant()
+                ? 'Tenant: ' . tenant()->name
+                : 'Sin tenant'
+            )
+            ->icon('heroicon-o-building-office')
+            ])
             ->default()
             ->id('yes')
             ->path('yes')
