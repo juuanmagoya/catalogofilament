@@ -1,23 +1,16 @@
 <?php
-
+//Auto asigna tenant id para products y demas
 namespace App\Models\Concerns;
 
-use App\Models\Scopes\TenantScope;
-
-trait BelongsToTenant
+trait AssignsTenantOnCreate
 {
-    protected static function bootBelongsToTenant()
+    protected static function bootAssignsTenantOnCreate()
     {
-        // Scope global
-        static::addGlobalScope(new TenantScope);
-
-        // Auto-asignar tenant al crear
         static::creating(function ($model) {
             if (! tenant()) {
                 return;
             }
 
-            // Si ya viene asignado, no lo pisamos
             if ($model->tenant_id) {
                 return;
             }
