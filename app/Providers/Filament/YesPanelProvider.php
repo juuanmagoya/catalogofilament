@@ -62,12 +62,13 @@ class YesPanelProvider extends PanelProvider
             DisableBladeIconComponents::class,
             DispatchServingFilamentEvent::class,
 
-            'tenant', // 👈 alias del middleware
+            'tenant', // ResolveTenantFromSubdomain middleware
             
             ])
 
             ->authMiddleware([
                 Authenticate::class,
+                'tenant.user', // EnsureUserBelongsToTenant middleware
             ]);
     }
 }

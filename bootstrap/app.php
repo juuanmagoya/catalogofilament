@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         //$middleware->append(\App\Http\Middleware\ResolveTenant::class);
         $middleware->alias([
         'tenant' => \App\Http\Middleware\ResolveTenantFromSubdomain::class,
+        'tenant.user' => \App\Http\Middleware\EnsureUserBelongsToTenant::class,
     ]);
         
     })
