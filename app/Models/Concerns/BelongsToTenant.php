@@ -2,27 +2,13 @@
 
 namespace App\Models\Concerns;
 
-use App\Models\Scopes\TenantScope;
+use App\Models\Tenant;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 trait BelongsToTenant
 {
-    protected static function bootBelongsToTenant()
+    public function tenant(): BelongsTo
     {
-        // Scope global
-        static::addGlobalScope(new TenantScope);
-
-        // Auto-asignar tenant al crear
-        static::creating(function ($model) {
-            if (! tenant()) {
-                return;
-            }
-
-            // Si ya viene asignado, no lo pisamos
-            if ($model->tenant_id) {
-                return;
-            }
-
-            $model->tenant_id = tenant()->id;
-        });
+        return $this->belongsTo(Tenant::class);
     }
 }
